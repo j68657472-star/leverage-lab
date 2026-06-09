@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leverage Lab — 預覽總覽</title>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--brand:#1d4ed8;--canvas:#f8fafc}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,Helvetica,Arial,"PingFang TC","Microsoft JhengHei",sans-serif;
+    background:var(--canvas);color:var(--ink);padding:40px 20px;line-height:1.5}
+  .wrap{max-width:760px;margin:0 auto}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;margin-bottom:6px}
+  .logo .sq{width:34px;height:34px;border-radius:9px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:28px}
+  a.card{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;margin-bottom:12px;text-decoration:none;color:inherit;transition:box-shadow .15s}
+  a.card:hover{box-shadow:0 4px 14px rgba(15,23,42,.08)}
+  .ic{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .t{font-weight:700;font-size:15px}
+  .d{color:var(--muted);font-size:13px;margin-top:2px}
+  .arr{margin-left:auto;color:var(--muted);font-size:18px}
+  .note{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 16px;font-size:13px;color:#1e3a8a;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo"><span class="sq">L</span> Leverage Lab</div>
+  <div class="sub">所有頁面預覽（自包含 HTML，用真實回測數據製作）</div>
+
+  <a class="card" href="./dashboard.html">
+    <div class="ic" style="background:#eff6ff">🏠</div>
+    <div><div class="t">Dashboard　儀表板</div><div class="d">首頁：一眼看到主要動作、最近回測、目前訊號與配置</div></div>
+    <div class="arr">→</div>
+  </a>
+  <a class="card" href="./backtest-form.html">
+    <div class="ic" style="background:#ecfdf5">📝</div>
+    <div><div class="t">New Backtest　回測設定表單</div><div class="d">填資金、日期、in/out 分割，進階參數可展開</div></div>
+    <div class="arr">→</div>
+  </a>
+  <a class="card" href="./result-page.html">
+    <div class="ic" style="background:#fffbeb">📈</div>
+    <div><div class="t">Result　回測結果（真實數據）</div><div class="d">績效卡片、權益曲線、回撤圖、in/out 比較、交易紀錄</div></div>
+    <div class="arr">→</div>
+  </a>
+  <a class="card" href="./paper-trading.html">
+    <div class="ic" style="background:#f5f3ff">🧪</div>
+    <div><div class="t">Paper Trading　紙上模擬交易</div><div class="d">目前 vs 目標配置、本次更新的變動、模擬交易紀錄</div></div>
+    <div class="arr">→</div>
+  </a>
+  <a class="card" href="./architecture.html">
+    <div class="ic" style="background:#f1f5f9">🏗️</div>
+    <div><div class="t">Architecture　系統架構圖</div><div class="d">前端 → 後端 → 資料層的完整運作流程</div></div>
+    <div class="arr">→</div>
+  </a>
+
+  <div class="note">💡 這些是<b>靜態樣式預覽</b>，用來看 app 長相。真正可互動、可跑回測的版本，需要啟動前後端伺服器（Docker 或手動）。數據取自真實回測：2019–2024，$100,000 → $514,117（CAGR 31.4%）。</div>
+</div>
+</body>
+</html>

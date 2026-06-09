@@ -1,0 +1,56 @@
+# Render Blueprint — deploys the whole app (database + backend + frontend)
+# in one click. After pushing this repo to GitHub, go to render.com →
+# "New +" → "Blueprint", pick this repo, and Render reads this file.
+#
+# Free tier notes:
+#   - Free web services sleep after ~15 min idle and take ~30–60s to wake.
+#   - Free Postgres is removed after 90 days (fine for trying it out).
+# Upgrade any service to a paid instance later to remove these limits.
+
+databases:
+  - name: etf-lab-db
+    databaseName: etf_lab
+    user: etf
+    plan: free
+
+services:
+  # ---------------- Backend (FastAPI) ----------------
+  - type: web
+    name: etf-lab-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: etf-lab-db
+          property: connectionString
+      - key: PRICE_PROVIDERS
+        value: yfinance,stooq
+      - key: PRICE_CACHE_TTL_HOURS
+        value: "12"
+      # Allow the frontend service to call this API.
+      - key: CORS_ORIGINS
+        fromService:
+          type: web
+          name: etf-lab-frontend
+          property: host
+      - key: ALLOW_ALL_CORS
+        value: "1"
+
+  # ---------------- Frontend (Next.js) ----------------
+  - type: web
+    name: etf-lab-frontend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    envVars:
+      # Point the Next.js API rewrites at the backend service URL.
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: etf-lab-backend
+          property: host

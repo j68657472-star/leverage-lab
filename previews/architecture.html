@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leverage Lab — 架構圖</title>
+<style>
+  :root{
+    --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --brand:#1d4ed8;
+    --branddark:#1e3a8a; --canvas:#f8fafc; --surface:#fff;
+    --green:#059669; --amber:#f59e0b; --violet:#8b5cf6; --sky:#0ea5e9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,Helvetica,Arial,"PingFang TC","Microsoft JhengHei",sans-serif;
+       background:var(--canvas);color:var(--ink);padding:32px 20px;line-height:1.5}
+  .wrap{max-width:1080px;margin:0 auto}
+  h1{font-size:26px;font-weight:800;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:14px;margin-top:4px;margin-bottom:28px}
+  .layer{background:var(--surface);border:1px solid var(--line);border-radius:18px;
+         padding:20px;margin-bottom:18px;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  .layer-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .badge{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+         color:#fff;font-weight:800;font-size:14px}
+  .layer-title{font-weight:800;font-size:16px}
+  .layer-desc{color:var(--muted);font-size:13px;font-weight:500}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .box{flex:1;min-width:150px;border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:#fff}
+  .box.tint-blue{background:#eff6ff;border-color:#bfdbfe}
+  .box.tint-green{background:#ecfdf5;border-color:#a7f3d0}
+  .box.tint-amber{background:#fffbeb;border-color:#fde68a}
+  .box.tint-violet{background:#f5f3ff;border-color:#ddd6fe}
+  .box.tint-slate{background:#f8fafc;border-color:#e2e8f0}
+  .box h4{font-size:13.5px;font-weight:700;margin-bottom:3px}
+  .box p{font-size:12px;color:var(--muted)}
+  .box code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:var(--brand)}
+  .arrow{text-align:center;color:var(--muted);font-size:13px;margin:2px 0 14px;font-weight:600;letter-spacing:.04em}
+  .flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .flow .box{position:relative}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--muted)}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  .note{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 16px;
+        font-size:13px;color:var(--branddark);margin-top:6px}
+  .note b{font-weight:700}
+  .pipe{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+        background:#0f172a;border-radius:14px;padding:16px;color:#fff;margin:6px 0 18px}
+  .pipe .step{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+        border-radius:9px;padding:8px 12px;font-size:12.5px;font-weight:600;white-space:nowrap}
+  .pipe .sep{color:#64748b;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Leverage Lab — 系統架構圖</h1>
+  <div class="sub">槓桿 ETF 策略回測 + 紙上模擬交易平台 · 共約 4,900 行程式碼</div>
+
+  <!-- 使用者請求流程 -->
+  <div class="layer">
+    <div class="layer-head">
+      <div class="badge" style="background:#0f172a">▶</div>
+      <div>
+        <div class="layer-title">當你按下「Run Backtest」會發生什麼？</div>
+        <div class="layer-desc">一次完整請求的旅程</div>
+      </div>
+    </div>
+    <div class="pipe">
+      <span class="step">① 你填資金/日期/參數</span><span class="sep">→</span>
+      <span class="step">② 前端送出請求</span><span class="sep">→</span>
+      <span class="step">③ 後端抓股價(yfinance)</span><span class="sep">→</span>
+      <span class="step">④ 策略引擎逐日模擬</span><span class="sep">→</span>
+      <span class="step">⑤ 存進資料庫</span><span class="sep">→</span>
+      <span class="step">⑥ 回傳結果畫成圖表</span>
+    </div>
+  </div>
+
+  <!-- 前端 -->
+  <div class="layer">
+    <div class="layer-head">
+      <div class="badge" style="background:var(--brand)">F</div>
+      <div>
+        <div class="layer-title">前端 Frontend　<span class="layer-desc">你看到的畫面</span></div>
+        <div class="layer-desc">Next.js + React + TypeScript + Tailwind + Recharts</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="box tint-blue"><h4>10 個頁面</h4><p>儀表板、回測表單、結果、交易、持倉、訊號、已存回測、比較、紙上交易清單/詳情</p></div>
+      <div class="box tint-blue"><h4>共用元件</h4><p>外框導覽、圖表、卡片、載入/空狀態 <code>components/</code></p></div>
+      <div class="box tint-blue"><h4>工具</h4><p>API 橋樑、數字格式化、匿名 ID（不用登入）<code>lib/</code></p></div>
+    </div>
+  </div>
+
+  <div class="arrow">▲ HTTP / JSON ▼</div>
+
+  <!-- 後端 -->
+  <div class="layer">
+    <div class="layer-head">
+      <div class="badge" style="background:var(--green)">B</div>
+      <div>
+        <div class="layer-title">後端 Backend　<span class="layer-desc">真正做計算的廚房</span></div>
+        <div class="layer-desc">FastAPI + Python</div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom:12px">
+      <div class="box tint-green"><h4>API 路由</h4><p>回測 & 紙上交易的所有網址 <code>api/</code></p></div>
+      <div class="box tint-green"><h4>協調層</h4><p>串起「抓資料→跑引擎→存DB」<code>services/</code></p></div>
+    </div>
+
+    <div style="border:1px dashed #a7f3d0;border-radius:12px;padding:14px;background:#f0fdf4">
+      <div style="font-weight:700;font-size:13.5px;margin-bottom:10px">🧠 策略引擎 engine/（純計算核心 · 33 個測試全過）</div>
+      <div class="row">
+        <div class="box"><h4>params.py</h4><p>所有可調參數 + 驗證</p></div>
+        <div class="box"><h4>indicators.py</h4><p>RSI、OBV、均線、動能、斜率</p></div>
+        <div class="box"><h4>signals.py</h4><p>訊號 → 目標權重<br>(25/25/50)</p></div>
+        <div class="box"><h4>backtest.py</h4><p><b style="color:var(--green)">不偷看未來</b>的逐日模擬</p></div>
+        <div class="box"><h4>metrics.py</h4><p>CAGR/夏普/回撤…</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">▲ 讀 / 寫 ▼</div>
+
+  <!-- 資料層 -->
+  <div class="layer">
+    <div class="layer-head">
+      <div class="badge" style="background:var(--amber)">D</div>
+      <div>
+        <div class="layer-title">資料層　<span class="layer-desc">倉庫 + 食材供應商</span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="box tint-amber"><h4>📦 PostgreSQL 資料庫</h4><p>存每一次回測：績效、每日持倉、交易明細、訊號、紙上交易（本機用 SQLite，零設定）</p></div>
+      <div class="box tint-violet"><h4>🌐 股價來源</h4><p>yfinance（主）+ Stooq（備援），自動<b>快取</b>避免重複下載；失敗時舊回測照樣能看</p></div>
+    </div>
+  </div>
+
+  <!-- 三大設計重點 -->
+  <div class="note">
+    <b>三個關鍵設計：</b>
+    &nbsp;① <b>不偷看未來</b>：D 日收盤算訊號，D+1 日才下單 → 績效真實可信。
+    &nbsp;② <b>不用登入</b>：瀏覽器匿名 ID 記住你的回測，每個回測有獨立網址。
+    &nbsp;③ <b>純模擬研究工具</b>：全程標明非投資建議、未連接券商。
+  </div>
+
+</div>
+</body>
+</html>
